@@ -7,14 +7,16 @@ class NoteService {
 
     private var nextId: Int = 1
 
-    fun add(id: Int, userId: Int, title: String, text: String): Note {
-        notes += Note(nextId++, userId, title, text)
-        return notes.last()
+    fun add(userId: Int, title: String, text: String): Note {
+        val note = Note(nextId++, userId, title, text)
+        notes += note
+        return note
     }
 
     fun createComment(noteId: Int, message: String): Comment {
-        comments += Comment(nextId++, noteId, message)
-        return comments.last()
+        val comment = Comment(nextId++, noteId, message)
+        comments += comment
+        return comment
     }
 
     fun deleteComment(id: Int) {
@@ -30,18 +32,18 @@ class NoteService {
     }
 
     fun delete(id: Int) {
-        var foundPost = getById(id)
+        val foundPost = getById(id)
         foundPost.deleted = true
     }
 
     fun edit(note: Note) {
-        var foundPost = getById(note.id)
+        val foundPost = getById(note.id)
         foundPost.text = note.text
         foundPost.title = note.title
     }
 
     fun get(noteIds: List<Int>, userId: Int, offset: Int = 0, count: Int = 20): List<Note> {
-        var res = mutableListOf<Note>()
+        val res = mutableListOf<Note>()
         var offSetCount = offset
         for(note in notes) {
             if (noteIds.contains(note.id) && (userId == note.userId)) {
@@ -53,7 +55,7 @@ class NoteService {
     }
 
     fun getComments(noteId: Int): List<Comment> {
-        var res = mutableListOf<Comment>()
+        val res = mutableListOf<Comment>()
         for(comment in comments) {
             if (comment.noteId == noteId) {
                 res += comment
